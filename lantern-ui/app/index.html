@@ -88,6 +88,8 @@
     <div class="message">
       <a href="https://getlantern.org" target="_blank">
       <img id="logo" src="/img/ui-header-logo.svg"></a><br/><span ng-hide="(backendIsGone && !wsConnected) || showError">{{ 'WELCOME_TO_LANTERN_BLOCKED_SITES' | translate }}</span>
+      <h3>{{bandwidthMsg.mibUsed}} M / {{bandwidthMsg.mibAllowed}} M</h3>
+      <br>
     </div>
     <div id="feedLink" ng-class="{subtle: showNews}">
       <div>

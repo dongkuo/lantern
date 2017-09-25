@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"sync"
 
-	"code.google.com/p/go-uuid/uuid"
-
+	//"code.google.com/p/go-uuid/uuid"
+	"crypto/rand"
 	"github.com/getlantern/appdir"
 	"github.com/getlantern/launcher"
 	"github.com/getlantern/yaml"
@@ -75,7 +75,8 @@ func loadSettingsFrom(version, revisionDate, buildDate, path string) *Settings {
 
 	// We always just set the device ID to the MAC address on the system. Note
 	// this ignores what's on disk, if anything.
-	set.DeviceID = base64.StdEncoding.EncodeToString(uuid.NodeID())
+	//set.DeviceID = base64.StdEncoding.EncodeToString(uuid.NodeID())
+	set.DeviceID = base64.StdEncoding.EncodeToString(generateMacAddress())
 
 	if set.AutoLaunch {
 		launcher.CreateLaunchFile(set.AutoLaunch)
@@ -97,6 +98,17 @@ func loadSettingsFrom(version, revisionDate, buildDate, path string) *Settings {
 		go set.read(service.In, service.Out)
 	})
 	return set
+}
+
+// 随机生成MAC地址
+func generateMacAddress() []byte {
+	buf := make([]byte, 6)
+	_, err := rand.Read(buf)
+	if err != nil {
+		panic("generate mac address error")
+	}
+	buf[0] = (buf[0] | 2) & 0xfe
+	return buf
 }
 
 // start the settings service that synchronizes Lantern's configuration with every UI client

@@ -103,6 +103,9 @@ var app = angular.module('app', [
         var envelope = JSON.parse(raw.data);
         if (typeof Messages[envelope.type] != 'undefined') {
           Messages[envelope.type].call(this, envelope.message);
+          if(envelope.type === 'bandwidth' && envelope.message){
+              $rootScope.bandwidthMsg = envelope.message
+          }
         } else {
           console.log('Got unknown message type: ' + envelope.type);
         };
@@ -173,6 +176,12 @@ var app = angular.module('app', [
     // for easier inspection in the JavaScript console
     $window.rootScope = $rootScope;
     $window.model = model;
+
+    $rootScope.bandwidthMsg = {
+        asOf: new Date().toLocaleString(),
+        mibAllowed: 500,
+        mibUsed: 0
+    };
 
     $rootScope.EXTERNAL_URL = EXTERNAL_URL;
 
