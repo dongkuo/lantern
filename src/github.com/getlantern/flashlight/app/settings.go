@@ -57,10 +57,13 @@ func loadSettingsFrom(version, revisionDate, buildDate, path string) *Settings {
 	// Create default settings that may or may not be overridden from an existing file
 	// on disk.
 	set := &Settings{
-		AutoReport:  true,
-		AutoLaunch:  true,
+		//AutoReport:  true,
+		AutoReport:  false,
+		//AutoLaunch:  true,
+		AutoLaunch:  false,
 		ProxyAll:    false,
-		SystemProxy: true,
+		//SystemProxy: true,
+		SystemProxy: false,
 	}
 
 	// Use settings from disk if they're available.
